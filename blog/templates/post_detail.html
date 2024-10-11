@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{post.title}}</title>
+</head>
+<body>
+    
+    <h1>Posts {{post.id}}</h1>
+
+    <ul>
+        <li>
+            <h2>{{post.title}}</h2>
+            <p>{{post.content}}</p>
+            <p><strong>Author</strong>{{post.author}}</p>
+            <p><em>Created at:</em>{{post.created_at}}</p>
+            <button><a href="{% url 'post_list' %}">Back</a></button>
+            <button><a href="{% url 'edit_post' post.id %}">Edit</a></button>
+            <form method="post"  action="{% url 'delete_post' post.id %}">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+
+            <h2>Comments</h2>
+            <ul>
+                {% for comment in comments %}
+                    <li>
+                        <strong>{{ comment.author }}</strong>: {{ comment.content }} at {{ comment.created_at }}
+                    </li>
+                {% empty %}
+                    <li>No comments yet.</li>
+                {% endfor %}
+            </ul>
+
+            <h3>Add a Comment</h3>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Add Comment</button>
+            </form>
+
+
+
+        </li>
+    </ul>
+
+
+
+</body>
+</html>
