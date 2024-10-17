@@ -9,7 +9,12 @@ def create_post(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
-            form.save()
+            post = form.save(commit=False)
+            if request.user.is_authenticated:
+                post.author = request.user
+            else:
+                post.author = None
+            post.save()
             return redirect('post_list')
     else:
         form = PostForm()
