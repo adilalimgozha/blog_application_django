@@ -4,6 +4,7 @@ from django.contrib import messages
 from .forms import UserRegisterForm, ProfileForm
 from .models import Profile
 from django.contrib.auth.decorators import login_required
+from relation.models import Relation
 
 def register(request):
     if request.method == 'POST':
@@ -34,7 +35,8 @@ def profile(request):
 
 def profiles(request, id):
     user_profile = get_object_or_404(Profile, user__id=id)
-    return render(request, 'profile.html', {'profile': user_profile})
+    is_following = Relation.objects.filter(follower=request.user, following=user_profile.user).exists()
+    return render(request, 'profile.html', {'profile': user_profile, 'is_following': is_following})
 
 def edit_profile(request):
     user_profile = get_object_or_404(Profile, user=request.user)

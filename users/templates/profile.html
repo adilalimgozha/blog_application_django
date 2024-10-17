@@ -29,6 +29,18 @@
         {% endif %}
 
     {%endif%}
+
+    {% if is_following %}
+        <form method="post" action="{% url 'unfollow_user' profile.user.id %}">
+            {% csrf_token %}
+            <button type="submit">Unfollow</button>
+        </form>
+    {% else %}
+        <form method="post" action="{% url 'follow_user' profile.user.id %}">
+            {% csrf_token %}
+            <button type="submit">Follow</button>
+        </form>
+    {% endif %}
     
     <p><a href="{% url 'post_list' %}">Back to Posts</a></p>
 </body>
