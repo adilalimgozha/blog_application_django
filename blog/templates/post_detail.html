@@ -15,12 +15,18 @@
             <p>{{post.content}}</p>
             <p><strong>Author</strong>{{post.author}}</p>
             <p><em>Created at:</em>{{post.created_at}}</p>
+
+            <a href="{% url 'profile' post.author.id %}"> {{post.author}} Profile</a>
+
             <button><a href="{% url 'post_list' %}">Back</a></button>
+
+            {% if post.author == request.user %}
             <button><a href="{% url 'edit_post' post.id %}">Edit</a></button>
-            <form method="post"  action="{% url 'delete_post' post.id %}">
-                {% csrf_token %}
-                <button type="submit">Delete</button>
-            </form>
+                <form method="post"  action="{% url 'delete_post' post.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            {% endif %}
 
             <h2>Comments</h2>
             <ul>

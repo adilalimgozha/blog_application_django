@@ -32,6 +32,10 @@ def profile(request):
     user_profile = get_object_or_404(Profile, user=request.user)
     return render(request, 'profile.html', {'profile': user_profile})
 
+def profiles(request, id):
+    user_profile = get_object_or_404(Profile, user__id=id)
+    return render(request, 'profile.html', {'profile': user_profile})
+
 def edit_profile(request):
     user_profile = get_object_or_404(Profile, user=request.user)
     
